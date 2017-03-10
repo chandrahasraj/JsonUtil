@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/test" xmlns:tns="http://www.example.org/test" elementFormDefault="qualified">
+
+    <element name="id" type="string"></element>
+
+    <element name="link" type="string"></element>
+
+    <element name="name" type="string"></element>
+
+    <element name="desktopLogo" type="string"></element>
+
+    <element name="mobileLogo" type="string"></element>
+
+    <element name="renderCode" type="string"></element>
+
+</schema>

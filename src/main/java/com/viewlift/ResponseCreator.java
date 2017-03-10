@@ -21,12 +21,12 @@ public class ResponseCreator {
 					new TypeReference<Map<String, Object>>() {
 					});
 			getJsonObjectsFromMap(map, root);
-			GenericJson test = GenericJson.find("masthead", root);
+			GenericJson test = GenericJson.find("required", root);
 
 			System.out.println(test.toString());
 			System.out.println(test.getKeysInThatNode());
 
-			test.removeChild(new GenericJson("navigation", false));
+			test.removeChild(new GenericJson("generatedTrayModule", false));
 			System.out.println(test.toString());
 			System.out.println(test.getKeysInThatNode());
 
@@ -71,8 +71,10 @@ public class ResponseCreator {
 	@SuppressWarnings("unchecked")
 	void getJsonObjectsFromList(ArrayList<Object> jsonObjects,
 			GenericJson parent) {
+		boolean keyValueObjects = false;
 		for (Object jsonObject : jsonObjects) {
 			GenericJson currentParent = null;
+			keyValueObjects = false;
 			if (jsonObject instanceof LinkedHashMap) {
 				currentParent = new GenericJson(false);
 				getJsonObjectsFromMap(
@@ -84,17 +86,21 @@ public class ResponseCreator {
 						currentParent);
 			} else if (jsonObject instanceof String) {
 				currentParent = new GenericJson((Object) jsonObject);
+				keyValueObjects = true;
 			} else if (jsonObject instanceof Boolean) {
 				currentParent = new GenericJson((Object) (Boolean) jsonObject);
+				keyValueObjects = true;
 			} else if (jsonObject instanceof Number) {
 				currentParent = new GenericJson((Object) (Number) jsonObject);
+				keyValueObjects = true;
 			}
 
 			if (parent == null)
 				parent = currentParent;
 			else if (currentParent != null) {
 				parent.addValueToParentKey(currentParent);
-				// System.out.println("}");
+//				if(keyValueObjects)
+//					parent.addKeysInParentList(currentParent.getKey());
 			}
 		}
 	}
@@ -358,6 +364,14 @@ class GenericJson {
 	 */
 	public void setKeysInParent(List<String> keysInParent) {
 		this.keysInParent = keysInParent;
+	}
+	
+	/**
+	 * adding keys from {key:value,key2:value} to the parent's keys list
+	 * @param key
+	 */
+	public void addKeysInParentList(String key){
+		keysInParent.add(key);
 	}
 
 	/**
